@@ -4,7 +4,7 @@ import './styles.scss'
 
 const Header = () => (
   <header className="header">
-    <span>LIBRARY</span>
+    <span>THE LIBRARY</span>
   </header>
 )
 

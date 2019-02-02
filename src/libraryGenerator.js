@@ -8,7 +8,8 @@ export default ({ bookGenres, librarySize, booksPerAuthorRatio, oldestBookAge, p
         return Math.floor(Math.random() * numberOfAuthors)
     }
 
-    const generateBooksArray = () => new Array(librarySize).fill().map(e => ({
+    const generateBooksArray = () => new Array(librarySize).fill().map((_, index) => ({
+        id: index,
         name: faker.random.words(),
         genre: faker.helpers.randomize(bookGenres),
         publishDate: faker.date.past(oldestBookAge),

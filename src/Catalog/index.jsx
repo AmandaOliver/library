@@ -4,10 +4,10 @@ import Book from '../Book'
 import './styles.scss'
 
 const Catalog = ({ booksArray, authorsMap }) => {
-    
+
     const bookComponentsArray = booksArray.map(book => {
         const author = authorsMap.get(book.authorId)
-        return <Book key={book.name} book={book} author={author} />
+        return <Book key={book.id} book={book} author={author} />
     })
 
     return (
