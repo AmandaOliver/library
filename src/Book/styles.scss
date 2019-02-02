@@ -5,10 +5,15 @@
     margin: 5px;
     transition: box-shadow 0.2s ease-in-out 0s;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    &:hover {
-        box-shadow: 5px 5px 10px #dddddd;
-    }
-    &__property__name {
-        color: #3fbfbb
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: space-around;
+    align-items: center;
+    &__property {
+        width: 200px;
+        &__name{
+            color: #3fbfbb;
+            font-size: 16px;
+        }
     }
 }

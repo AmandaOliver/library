@@ -6,7 +6,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test-lint": "eslint ./src",
+    "test-coverage": "yarn test -- --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +29,11 @@
   },
   "devDependencies": {
     "react-test-renderer": "^16.7.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.jsx"
+    ]
   }
 }

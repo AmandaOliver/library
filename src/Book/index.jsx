@@ -2,26 +2,34 @@ import React from 'react'
 import moment from 'moment'
 import './styles.scss'
 
-const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-const createProperties = (book) =>
-  Object.keys(book).map(property => {
-    const propertyName = capitalize(property)
-    const propertyValue = book[property] instanceof Date ?
-      moment(book[property]).format('DD/MM/YYYY') :
-      book[property]
 
-    return (
-      <div className='book__property'>
-        <span className="book__property__name">{propertyName}: </span>
-        <span className="book__property__value">{propertyValue}</span>
-      </div>
-    )
-  })
+const Book = ({ book, author }) => {
 
-const Book = ({ book }) => {
+  const { name, genre, publishDate } = book
+  const publishDateFormatted = moment(publishDate).format('DD/MM/YYYY')
+
   return (
     <div className="book">
-      {[...createProperties(book)]}
+      <div className='book__property'>
+        <span className="book__property__name">Name: </span>
+        <span className="book__property__value">{name} </span>
+      </div>
+      <div className='book__property'>
+        <span className="book__property__name">Genre: </span>
+        <span className="book__property__value">{genre} </span>
+      </div>
+      <div className='book__property'>
+        <span className="book__property__name">Publish Date: </span>
+        <span className="book__property__value">{publishDateFormatted}</span>
+      </div>
+      <div className='book__property'>
+        <span className="book__property__name">Author Name: </span>
+        <span className="book__property__value">{author.name} </span>
+      </div>
+      <div className='book__property'>
+        <span className="book__property__name">Author Gender: </span>
+        <span className="book__property__value">{author.gender} </span>
+      </div>
     </div>
   )
 }

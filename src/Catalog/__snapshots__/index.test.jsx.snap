@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Catalog renders 1`] = `
+<div
+  className="catalog"
+>
+  <div
+    className="book"
+  >
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Name: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockName
+         
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Genre: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockGenre
+         
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Publish Date: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        02/02/2019
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Author Name: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockName
+         
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Author Gender: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockGenre
+         
+      </span>
+    </div>
+  </div>
+  <div
+    className="book"
+  >
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Name: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockName1
+         
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Genre: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockGenre1
+         
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Publish Date: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        02/02/2019
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Author Name: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockName1
+         
+      </span>
+    </div>
+    <div
+      className="book__property"
+    >
+      <span
+        className="book__property__name"
+      >
+        Author Gender: 
+      </span>
+      <span
+        className="book__property__value"
+      >
+        mockGenre1
+         
+      </span>
+    </div>
+  </div>
+</div>
+`;

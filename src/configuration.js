@@ -1,14 +1,18 @@
 export default {
-    pageTitle: 'LIBRARY',
     bookGenres: [
         'horror',
         'finance',
-        'love',
         'software development',
         'scientific',
         'historial',
         'science fiction',
     ],
+    personGenders: [
+        'male',
+        'female',
+        'robot'
+    ],
     librarySize: 10,
-    booksPerAuthorRatio: 2.5
+    booksPerAuthorRatio: 2.5,
+    oldestBookAge: 25,
 }

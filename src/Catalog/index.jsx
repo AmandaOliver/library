@@ -3,11 +3,16 @@ import Book from '../Book'
 
 import './styles.scss'
 
-const Catalog = ({books}) => {
-    const bookComponentsArray = books.map(book => <Book key={book.name} book={book} />)
+const Catalog = ({ booksArray, authorsMap }) => {
+    
+    const bookComponentsArray = booksArray.map(book => {
+        const author = authorsMap.get(book.authorId)
+        return <Book key={book.name} book={book} author={author} />
+    })
+
     return (
         <div className="catalog">
-            {[...bookComponentsArray]}
+            {bookComponentsArray}
         </div>
     )
 }
