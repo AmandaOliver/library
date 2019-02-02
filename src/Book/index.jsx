@@ -5,7 +5,7 @@ import './styles.scss'
 
 const Book = ({ book, author }) => {
 
-  const { name, genre, publishDate } = book
+  const { name, genre, publishDate, authorName, authorGender } = book
   const publishDateFormatted = moment(publishDate).format('DD/MM/YYYY')
 
   return (
@@ -24,11 +24,11 @@ const Book = ({ book, author }) => {
       </div>
       <div className='book__property'>
         <span className="book__property__name">Author Name: </span>
-        <span className="book__property__value">{author.name} </span>
+        <span className="book__property__value">{authorName} </span>
       </div>
       <div className='book__property'>
         <span className="book__property__name">Author Gender: </span>
-        <span className="book__property__value">{author.gender} </span>
+        <span className="book__property__value">{authorGender} </span>
       </div>
     </div>
   )

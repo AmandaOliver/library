@@ -2,7 +2,7 @@ export default {
     bookGenres: [
         'horror',
         'finance',
-        'software development',
+        'software engineering',
         'scientific',
         'historial',
         'science fiction',
@@ -12,7 +12,6 @@ export default {
         'female',
         'robot'
     ],
-    librarySize: 10,
-    booksPerAuthorRatio: 2.5,
+    librarySize: 1000000,
     oldestBookAge: 25,
 }
