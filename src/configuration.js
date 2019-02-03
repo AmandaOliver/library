@@ -4,8 +4,15 @@ export default {
         'finance',
         'software engineering',
         'scientific',
-        'historial',
+        'historical',
         'science fiction',
+    ],
+    bookProperties: [
+        'Name',
+        'Genre',
+        'Publish Date',
+        'Author Name',
+        'Author Gender'
     ],
     personGenders: [
         'male',
@@ -13,6 +20,6 @@ export default {
         'robot'
     ],
     booksPerPage: 10,
-    librarySize: 1000000,
+    librarySize: 100,
     oldestBookAge: 25,
 }

@@ -6,17 +6,14 @@ const book = {
     name: 'mockName',
     genre: 'mockGenre',
     publishDate: new Date(),
-}
-
-const author = {
-    name: 'mockName',
-    gender: 'mockGenre'
+    authorName: 'mockAuthorName',
+    authorGender: 'mockAuthorGender'
 }
 
 describe('Book', () => {
   it('renders', () => {
     const component = renderer.create(
-        <Book book={book} author={author}/>,
+        <Book book={book}/>,
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();

@@ -5,8 +5,7 @@ self.addEventListener("message", ({ data }) => generateBooksMap(data));
 
 const generateBooksMap = ({ librarySize, bookGenres, oldestBookAge, personGenders }) =>
     new Array(librarySize).fill().map((_, index) => {
-        const bookEntry = [
-            index,
+        const bookEntry =
             {
                 id: index,
                 name: faker.random.words(),
@@ -15,8 +14,6 @@ const generateBooksMap = ({ librarySize, bookGenres, oldestBookAge, personGender
                 authorName: faker.name.findName(),
                 authorGender: faker.helpers.randomize(personGenders),
             }
-        ]
         postMessage(bookEntry)
         return bookEntry
     })
-

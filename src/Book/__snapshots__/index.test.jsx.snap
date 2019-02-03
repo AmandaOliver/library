@@ -5,6 +5,13 @@ exports[`Book renders 1`] = `
   className="book"
 >
   <div
+    className="book__property--id"
+  >
+    <span>
+      )
+    </span>
+  </div>
+  <div
     className="book__property"
   >
     <span
@@ -45,7 +52,7 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__value"
     >
-      02/02/2019
+      03/02/2019
     </span>
   </div>
   <div
@@ -59,7 +66,6 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__value"
     >
-      mockName
        
     </span>
   </div>
@@ -74,7 +80,6 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__value"
     >
-      mockGenre
        
     </span>
   </div>

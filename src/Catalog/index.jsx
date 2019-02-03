@@ -16,8 +16,11 @@ class Catalog extends PureComponent {
 
         window.onscroll = () => {
             const { scrollTop, offsetHeight } = document.documentElement
-            const needsToLoadMore =  window.innerHeight + scrollTop  === offsetHeight
-            if (needsToLoadMore) {
+            const isEndOfVisibleArea = window.innerHeight + scrollTop === offsetHeight
+            // Assumption: lirary is always multiple of 10
+            const lastBookIsLoaded = this.state.bookIds[conf.librarySize-1]
+            console.log(lastBookIsLoaded)
+            if (isEndOfVisibleArea && !lastBookIsLoaded) {
                 this.getMoreBooks()
             }
         }
