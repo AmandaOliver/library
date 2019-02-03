@@ -12,6 +12,7 @@ export default {
         'female',
         'robot'
     ],
+    booksPerPage: 10,
     librarySize: 1000000,
     oldestBookAge: 25,
 }

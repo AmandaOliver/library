@@ -12,6 +12,10 @@
     &__property {
         display: flex;
         align-items: center;
+        &--id {
+            margin-right: 6px;
+            font-weight: bolder;
+        }
         &__name {
             color: #3fbfbb;
             font-size: 16px;
@@ -23,4 +27,5 @@
             margin: 5px;
         }
     }
+
 }

@@ -1,6 +1,8 @@
 import React, {PureComponent} from 'react'
 import Book from '../Book'
-import { isLibraryInitialized, getLibrary, worker } from '../library'
+import { isLibraryInitialized, worker, getBookById } from '../library'
+import conf from '../configuration'
+
 import './styles.scss'
 
 class Catalog extends PureComponent {
@@ -8,7 +10,7 @@ class Catalog extends PureComponent {
         super()
         this.state = {
             indexInit: 0,
-            books: [],
+            bookIds: [],
             isLoading: true
         }
 
@@ -19,34 +21,42 @@ class Catalog extends PureComponent {
                 this.getMoreBooks()
             }
         }
-        
-        // This could be done better, is listening to the webworker to initialize the component
-        worker.addEventListener('message', event => {
-            if (this.state.isLoading && isLibraryInitialized()) {
-                this.setState({
-                    ...this.state,
-                    isLoading: false,
-                })
-                this.getMoreBooks()
-            }
-        });
+        this.bindedInitializeComponent = this.initializeComponent.bind(this)
+        // listen to the web worker to check when to render the first elements
+        worker.addEventListener('message', this.bindedInitializeComponent);
     }
+
+    initializeComponent(event) {
+        const needsToLoadInitialBooks = this.state.isLoading === true && isLibraryInitialized()
+        const unsubscribeFromWorker = () => worker.removeEventListener('message', this.bindedInitializeComponent)
+        const setIsLoadingFalse = () => this.setState({ ...this.state, isLoading: false })
+
+        console.info('Can I render something?: ', needsToLoadInitialBooks )
+        if (needsToLoadInitialBooks) {
+            unsubscribeFromWorker()
+            setIsLoadingFalse()
+            this.getMoreBooks()
+        }
+    }
+
     getMoreBooks() {
-        const { books, indexInit } = this.state
-        const indexEnd = indexInit + 10
+        const { bookIds, indexInit } = this.state
+        const indexEnd = indexInit + conf.booksPerPage
+        console.info(`Adding Ids from ${indexInit} to ${indexEnd -1}`)
         this.setState({
-            books: [
-                // this could be done better, we add new books to the existent ones,
-                // when scrolling to the end of the list the million books will be on memory
-                ...books,
-                ...getLibrary().slice(indexInit, indexEnd)
+            bookIds: [
+                // THIS NEEDS IMPROVEMENT: we are rendering all books from 0 to the current
+                // position in the scroll, when we scroll towards the end of the list it will
+                // have to render all the books at the same time
+                ...bookIds,
+                ...new Array(conf.booksPerPage).fill().map((_, i) => i+indexInit)
             ],
             indexInit: indexEnd,
         })
     }
     render() {
-        const bookComponents = this.state.books.map(book => {
-            return <Book key={book.id} book={book} />
+        const bookComponents = this.state.bookIds.map(bookId => {
+            return <Book key={bookId} book={getBookById(bookId)} />
         })
         return (
             <div className="catalog">

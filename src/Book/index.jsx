@@ -5,11 +5,14 @@ import './styles.scss'
 
 const Book = ({ book, author }) => {
 
-  const { name, genre, publishDate, authorName, authorGender } = book
+  const { id, name, genre, publishDate, authorName, authorGender } = book
   const publishDateFormatted = moment(publishDate).format('DD/MM/YYYY')
 
   return (
     <div className="book">
+      <div className='book__property--id'>
+        <span >{id})</span>
+      </div>
       <div className='book__property'>
         <span className="book__property__name">Name: </span>
         <span className="book__property__value">{name} </span>
