@@ -1,19 +1,54 @@
-import React from 'react'
-import './styles.scss'
+import React, {PureComponent, Fragment} from 'react'
+import Select from 'react-select'
 import conf from '../configuration'
-// const dropdownOptions = conf.bookProperties.map(prop => <a href={selectoption()})
+import './styles.scss'
 
-const Search = () => {
-  return (
-    <div className="dropdown">
-      <button onClick={()=>{}} className="dropbtn">Dropdown</button>
-      <div id="myDropdown" className="dropdown-content">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
-      </div>
-    </div>
-  )
+class Search extends PureComponent {
+    state = {
+        selectedOption: undefined,
+        selectedOptionEnum: undefined
+    }
+    handleChange = (selected) => {
+        this.setState({ ...this.state, selectedOption: selected.value })
+        console.log(`Option selected:`, selected)
+    }
+    handleChangeEnum = (selected) => {
+        this.setState({ ...this.state, selectedOptionEnum: selected })
+        console.log(`Option selected enum:`, selected)
+    }
+    getValueList = string => {
+        return conf.propertyEnumMap[string]
+    }
+    render() {
+        const { selectedOption } = this.state
+        const propertyIsEnum = () => {
+            console.log(selectedOption, conf.bookProperties[1], conf.bookProperties[4] )
+            return selectedOption === conf.bookProperties[1] || selectedOption === conf.bookProperties[4]
+        }
+        const transformForOptions = array => {
+            console.log(array)
+            return array.map((p, i) => ({ label: p, value: p }))
+        }
+        return (
+            <Fragment>
+                <Select className="basic-single dropdown"
+                    classNamePrefix="select"
+                    onChange={this.handleChange}
+                    defaultValue={conf.bookProperties[0]}
+                    options={transformForOptions(conf.bookProperties)}/>
+
+                {propertyIsEnum() &&
+                    <Select className="basic-single dropdown"
+                        classNamePrefix="select"
+                        onChange={this.handleChangeEnum}
+                        options={transformForOptions(conf[this.getValueList(selectedOption)])} />
+                }
+
+            </Fragment>
+        )
+
+
+    }
 }
 
-export default Search;
+export default Search

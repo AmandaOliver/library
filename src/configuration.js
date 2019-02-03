@@ -19,6 +19,10 @@ export default {
         'female',
         'robot'
     ],
+    propertyEnumMap: {
+        'Genre': 'bookGenres',
+        'Author Gender': 'personGenders'
+    },
     booksPerPage: 10,
     librarySize: 100,
     oldestBookAge: 25,

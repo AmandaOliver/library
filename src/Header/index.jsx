@@ -1,6 +1,6 @@
-import React,{PureComponent} from 'react';
-import { worker, isLibraryLoaded } from '../library'
+import React, { PureComponent } from 'react';
 import Search from '../Search'
+import { worker, isLibraryLoaded } from '../library'
 import './styles.scss'
 
 class Header extends PureComponent {
@@ -22,8 +22,8 @@ class Header extends PureComponent {
   render() {
     return (
       <header className="header">
-        <span>THE LIBRARY</span>
-        <span>{!this.state.loaded ? 'loading...' : <Search/> }</span>
+        <span className="header__title">THE LIBRARY</span>
+        {!this.state.loaded ? 'loading...' : <Search />}
       </header>
     )
   }
