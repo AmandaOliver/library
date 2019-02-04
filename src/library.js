@@ -9,21 +9,14 @@ worker.addEventListener('message', event => {
 });
 
 export const isLibraryLoaded = () => booksArray.length === conf.librarySize
-export const isLibraryInitialized = () => booksArray.length > 10
+export const isFirstPageLoaded = () => booksArray.length > conf.booksPerPage
 export const getBookById = id => booksArray[id]
-export const getBookProperties = () => Object.keys(booksArray[0])
 window.sortByProperty = property =>
     booksArray.sort((a,b) => {
-        if (a[property] < b[property]) {
-            return -1
-        }
-        if (a[property] > b[property]) {
-            return 1
-        }
-        return 0
+        return a[property] < b[property]  ? -1 : 1
     })
 
-window.filterByProperty = (paramsArray) =>
+window.filterByProperties = (paramsArray) =>
     booksArray.filter(book => paramsArray.every(({ property, value }) =>{
         if (property === 'publishDate') {
             return book[property].getTime() === value.getTime()

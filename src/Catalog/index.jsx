@@ -1,9 +1,10 @@
 import React, {PureComponent} from 'react'
 import Book from '../Book'
-import { isLibraryInitialized, worker, getBookById } from '../library'
+import { isFirstPageLoaded, worker, getBookById } from '../library'
 import conf from '../configuration'
 
 import './styles.scss'
+const bookHeight = '140';
 
 class Catalog extends PureComponent {
     constructor() {
@@ -11,59 +12,91 @@ class Catalog extends PureComponent {
         this.state = {
             indexInit: 0,
             bookIds: [],
-            isLoading: true
+            isLoading: true,
+            higestIndexRender: 0,
         }
 
-        window.onscroll = () => {
-            const { scrollTop, offsetHeight } = document.documentElement
-            const isEndOfVisibleArea = window.innerHeight + scrollTop === offsetHeight
-            // Assumption: lirary is always multiple of 10
-            const lastBookIsLoaded = this.state.bookIds[conf.librarySize-1]
-            console.log(lastBookIsLoaded)
-            if (isEndOfVisibleArea && !lastBookIsLoaded) {
-                this.getMoreBooks()
-            }
-        }
         this.bindedInitializeComponent = this.initializeComponent.bind(this)
-        // listen to the web worker to check when to render the first elements
-        worker.addEventListener('message', this.bindedInitializeComponent);
+
+        this.catalogRef = React.createRef()
+        this.bottomRef = React.createRef()
+        this.bookWrapper = React.createRef()
     }
-
     initializeComponent(event) {
-        const needsToLoadInitialBooks = this.state.isLoading === true && isLibraryInitialized()
+        const needsToLoadInitialBooks = this.state.isLoading === true && isFirstPageLoaded()
         const unsubscribeFromWorker = () => worker.removeEventListener('message', this.bindedInitializeComponent)
-        const setIsLoadingFalse = () => this.setState({ ...this.state, isLoading: false })
 
-        console.info('Can I render something?: ', needsToLoadInitialBooks )
+        //console.info('Can I render something?: ', needsToLoadInitialBooks )
         if (needsToLoadInitialBooks) {
             unsubscribeFromWorker()
-            setIsLoadingFalse()
-            this.getMoreBooks()
+            this.setState({isLoading: false })
+            this.getMoreBooks(0, 10)
+            this.bottomRef.current.style.height = this.calculateBottomSpace() + 'px'
         }
     }
 
-    getMoreBooks() {
-        const { bookIds, indexInit } = this.state
-        const indexEnd = indexInit + conf.booksPerPage
-        console.info(`Adding Ids from ${indexInit} to ${indexEnd -1}`)
+    getMoreBooks(indexInit, indexEnd) {
+        const { higestIndexRender } = this.state
+        //console.info(`Adding Ids from ${indexInit} to ${indexEnd - 1}`)
         this.setState({
             bookIds: [
-                // THIS NEEDS IMPROVEMENT: we are rendering all books from 0 to the current
-                // position in the scroll, when we scroll towards the end of the list it will
-                // have to render all the books at the same time
-                ...bookIds,
-                ...new Array(conf.booksPerPage).fill().map((_, i) => i+indexInit)
+                ...new Array(indexEnd-indexInit+1).fill().map((_, i) => i+indexInit)
             ],
-            indexInit: indexEnd,
         })
+    }
+    getScrollPosition() {
+        const scrollPosition =  document.querySelector('html').scrollTop > document.body.scrollTop ?  document.querySelector('html').scrollTop : document.body.scrollTop
+        return scrollPosition
+    }
+
+    getBookHeight() {
+        return bookHeight
+    }
+    getFirstIndex() {
+        return Math.floor(this.getScrollPosition()/this.getBookHeight())
+    }
+    getLastIndex() {
+        return Math.ceil((this.getScrollPosition()+document.documentElement.clientHeight)/this.getBookHeight())
+    }
+    calculateTopSpace() {
+        return this.getScrollPosition()
+    }
+    calculateBottomSpace() {
+        return (conf.librarySize-this.getLastIndex())*this.getBookHeight()
+    }
+    componentDidMount() {
+        let timeoutId;
+        const onScroll = () => {
+            this.getMoreBooks(this.getFirstIndex(), this.getLastIndex())
+
+        }
+        window.onscroll = () => {
+            this.bookWrapper.current.style.top = -1 * this.getScrollPosition() % 100000 + 'px'
+            clearTimeout(timeoutId)
+            onScroll()
+            // const { scrollTop, offsetHeight } = document.documentElement
+            // const isEndOfVisibleArea = window.innerHeight + scrollTop === offsetHeight
+
+            // const lastBookIsLoaded = this.state.bookIds[conf.librarySize-1]
+            // console.log(lastBookIsLoaded)
+            // if (isEndOfVisibleArea && !lastBookIsLoaded) {
+            // }
+        }
+        // listen to the web worker to check when to render the first elements
+        worker.addEventListener('message', this.bindedInitializeComponent);
     }
     render() {
         const bookComponents = this.state.bookIds.map(bookId => {
             return <Book key={bookId} book={getBookById(bookId)} />
         })
         return (
-            <div className="catalog">
-                {bookComponents}
+            <div ref={this.catalogRef} className="catalog">
+                <div className="spaceHolder" style={{ height: '500px', position: 'fixed' }}>
+                    <div ref={this.bookWrapper} className="bookWrapper">
+                        {bookComponents}
+                    </div>
+                </div>
+             <div className="spaceHolder" ref={this.bottomRef}></div>
             </div>
         )
     }

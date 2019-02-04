@@ -23,7 +23,7 @@ export default {
         'Genre': 'bookGenres',
         'Author Gender': 'personGenders'
     },
-    booksPerPage: 10,
-    librarySize: 100,
+    booksPerPage: 100,
+    librarySize: 1000000,
     oldestBookAge: 25,
 }

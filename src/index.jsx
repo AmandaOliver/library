@@ -8,7 +8,6 @@ export const App = () => (
         <Header />
         <Catalog />
     </Fragment>
-
 )
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -7,14 +7,16 @@ class Header extends PureComponent {
   constructor() {
     super()
     this.state = {
-      loaded: false
+      libraryLoaded: false
     }
     worker.addEventListener('message', this.updateFlag.bind(this))
   }
+  //TR: add docuentation for your methods
+
   updateFlag() {
     if (isLibraryLoaded()) {
       this.setState({
-        loaded: true
+        libraryLoaded: true
       })
     }
 
@@ -23,7 +25,7 @@ class Header extends PureComponent {
     return (
       <header className="header">
         <span className="header__title">THE LIBRARY</span>
-        {!this.state.loaded ? 'loading...' : <Search />}
+        {!this.state.libraryLoaded ? 'loading...' : <Search />}
       </header>
     )
   }

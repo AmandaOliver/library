@@ -1,4 +1,5 @@
 .book {
+    position: absolute;
     border-radius: 5px;
     box-shadow: 5px 5px 5px #e4e4e4a8;
     padding: 10px;
@@ -9,6 +10,7 @@
     flex-flow: wrap row;
     justify-content: space-between;
     align-items: center;
+    height: 100px;
     &__property {
         display: flex;
         align-items: center;

@@ -11,7 +11,7 @@ const Book = ({ book, author }) => {
   const publishDateFormatted = moment(publishDate).format('DD/MM/YYYY')
 
   return (
-    <div className="book">
+    <div className="book" style={{top:id * 140 % 100000 + 'px'}}>
       <div className='book__property--id'>
         <span >{id})</span>
       </div>
@@ -32,7 +32,7 @@ const Book = ({ book, author }) => {
         <span className="book__property__value">{authorName} </span>
       </div>
       <div className='book__property'>
-        <span className="book__property__name">{bookProperties[5]}:  </span>
+        <span className="book__property__name">{bookProperties[4]}:  </span>
         <span className="book__property__value">{authorGender} </span>
       </div>
     </div>
