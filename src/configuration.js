@@ -24,6 +24,6 @@ export default {
         'Author Gender': 'personGenders'
     },
     booksPerPage: 10,
-    librarySize: 10000,
+    librarySize: 1000000,
     oldestBookAge: 25,
 }

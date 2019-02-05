@@ -5,7 +5,7 @@ export const worker = new myWorker();
 export const booksArray = []
 worker.postMessage(conf);
 worker.addEventListener('message', event => {
-    booksArray.push(event.data)
+    !isLibraryLoaded() ? booksArray.push(event.data) : worker.close()
 });
 
 

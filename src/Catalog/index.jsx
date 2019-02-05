@@ -15,10 +15,12 @@ class Catalog extends PureComponent {
             indexInit: 0,
         }
         this.bindedInitializeComponent = this.initializeComponent.bind(this)
+    }
+
+    componentDidMount() {
         // listen to the web worker to check when to render the first elements
         worker.addEventListener('message', this.bindedInitializeComponent);
     }
-
     initializeComponent(event) {
         const needsToLoadInitialBooks = isLibraryInitialized()
         const unsubscribeFromWorker = () =>
@@ -45,8 +47,8 @@ class Catalog extends PureComponent {
             indexInit: indexEnd,
         })
     }
-    render() {
 
+    render() {
         const rowRenderer = ({ key, index, style }) => {
             const bookData = getBookById(index)
             return bookData ?
