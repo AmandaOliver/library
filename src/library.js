@@ -3,13 +3,25 @@ import myWorker from './libraryGenerator.worker';
 
 export const worker = new myWorker();
 export const booksArray = []
-worker.postMessage(conf);
-worker.addEventListener('message', event => {
-    !isLibraryLoaded() ? booksArray.push(event.data) : worker.close()
-});
-
-
 export const isLibraryLoaded = () => booksArray.length === conf.librarySize
+
+worker.postMessage(conf);
+
+console.time()
+const eventHandler = event => {
+    booksArray.push(event.data)
+    if (isLibraryLoaded()) {
+        console.info('Library loaded, closing worker')
+        console.timeEnd()
+        worker.terminate()
+    }
+
+}
+const eventHandlerBinded = eventHandler.bind({booksArray, worker})
+
+worker.addEventListener('message', eventHandlerBinded);
+
+
 export const isLibraryInitialized = () => booksArray.length > conf.booksPerPage
 export const getBookById = id => {
     let book = undefined

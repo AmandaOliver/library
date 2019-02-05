@@ -5,7 +5,6 @@ import conf from '../configuration'
 import { List, AutoSizer } from 'react-virtualized';
 
 import './styles.scss'
-
 class Catalog extends PureComponent {
     constructor() {
         super()
@@ -60,11 +59,11 @@ class Catalog extends PureComponent {
             <AutoSizer>
                 {({ height, width }) => (
                     <List
-                    width={width}
-                    height={height}
-                    rowCount={conf.librarySize}
-                    rowHeight={70}
-                    rowRenderer={rowRenderer.bind(this)}
+                        width={width}
+                        height={height}
+                        rowCount={conf.librarySize}
+                        rowHeight={70}
+                        rowRenderer={rowRenderer.bind(this)}
                     />
                 )}
                 </AutoSizer>
