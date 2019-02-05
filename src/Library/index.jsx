@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react'
 import Header from '../Header'
 import Catalog from '../Catalog'
 import { Provider } from '../context'
-import { booksArray } from '../libraryLoader'
+import lib from '../libraryLoader'
 import config from '../configuration'
+import { sortBooks } from '../utils'
 
 class Library extends PureComponent {
   constructor() {
@@ -14,32 +15,38 @@ class Library extends PureComponent {
       getBookById: this._getBookById,
       sortByProperty: this._sortByProperty,
       filterByProperties: this._filterByProperties,
+      resetFilter: this._resetFilter,
     }
 
     this.state = {
       filteredBooksArray: [],
       isFiltered: false,
+      sortedBy: 'id',
       ...this.actions,
     }
 
   }
-
+  _resetFilter = () => {
+    this.setState({
+      filteredBooksArray: [],
+      isFiltered: false
+    })
+  }
   _getLibrarySize = () => this.state.isFiltered ? this.state.filteredBooksArray.length : config.librarySize
-  _getBookById = id => this.state.isFiltered ? this.state.filteredBooksArray[id] : booksArray[id]
-  _sortByProperty = property => booksArray.sort((a, b) => a[property] < b[property]) ? -1 : 1
+  _getBookById = id => this.state.isFiltered ? this.state.filteredBooksArray[id] : lib.getBookById(id)
+  _sortByProperty = property => {
+    if (this.state.isFiltered) {
+      sortBooks(property, this.state.filteredBooksArray)
+    }
+    lib.sortByProperty(property)
+    this.setState({sortedBy: property})
+  }
 
   _filterByProperties = (paramsArray) => {
     this.setState({
-      filteredBooksArray: booksArray.filter(({ bookData }) => paramsArray.every(({ property, value }) => {
-        if (property === 'publishDate') {
-          return bookData[property].getTime() === value.getTime()
-        } else {
-          return bookData[property] === value
-        }
-      }))
-    },
-    () => this.setState({isFiltered: true})
-    )
+      filteredBooksArray: lib.filterByProperties(paramsArray),
+      isFiltered: true
+    })
   }
 
   render() {

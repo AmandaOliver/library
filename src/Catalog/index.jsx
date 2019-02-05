@@ -3,7 +3,7 @@ import Book from '../Book'
 import { Consumer } from '../context'
 import config from '../configuration'
 import { List, AutoSizer } from 'react-virtualized'
-import { worker, isLibraryInitialized } from '../libraryLoader'
+import lib from '../libraryLoader'
 import './styles.scss'
 
 class Catalog extends PureComponent {
@@ -19,12 +19,12 @@ class Catalog extends PureComponent {
 
   componentDidMount() {
     // listen to the web worker to check when to render the first elements
-    worker.addEventListener('message', this.bindedInitHandler)
+    lib.worker.addEventListener('message', this.bindedInitHandler)
   }
 
   initHandler(event) {
-    if (isLibraryInitialized()) {
-      worker.removeEventListener('message', this.bindedInitHandler)
+    if (lib.isLibraryInitialized()) {
+      lib.worker.removeEventListener('message', this.bindedInitHandler)
       this.setState({ isLoading: false })
       this.getMoreBooks()
     }

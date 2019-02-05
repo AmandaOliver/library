@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Library from './Library'
-import { initializeLibrary } from './libraryLoader'
+import lib from './libraryLoader'
 
-initializeLibrary()
+lib.initializeLibrary()
 
 ReactDOM.render(<Library />, document.getElementById('root'))
