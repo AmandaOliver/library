@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Search from '../Search'
-import { worker, isLibraryLoaded } from '../library'
+import { worker, isLibraryLoaded } from '../libraryLoader'
 import './styles.scss'
 
 class Header extends PureComponent {

@@ -1,15 +1,16 @@
 import React, {PureComponent} from 'react'
 import Book from '../Book'
-import { isLibraryInitialized, worker, getBookById } from '../library'
-import conf from '../configuration'
+import { Consumer } from '../context'
+import config from '../configuration'
 import { List, AutoSizer } from 'react-virtualized'
-
+import { worker, isLibraryInitialized } from '../libraryLoader'
 import './styles.scss'
+
 class Catalog extends PureComponent {
   constructor() {
     super()
     this.state = {
-      bookIds: new Array(conf.librarySize).fill(),
+      bookIds:[],
       isLoading: true,
       indexInit: 0,
     }
@@ -34,33 +35,38 @@ class Catalog extends PureComponent {
     this.setState({
       bookIds: [
         ...bookIds,
-        ...new Array(conf.booksPerPage).fill().map((_, i) => i+indexInit)
+        ...new Array(config.booksPerPage).fill().map((_, i) => i+indexInit)
       ],
-      indexInit: indexInit + conf.booksPerPage,
+      indexInit: indexInit + config.booksPerPage,
     })
   }
 
   render() {
-    const rowRenderer = ({ key, index, style }) => {
-      const bookData = getBookById(index)
-      return bookData ?
-        <div key={key} style={style}><Book book={bookData} /></div> :
-        <div key={key} style={style}><Book book={{id: index}} /></div>
-    }
     return (
-      <div className='catalog'>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              width={width}
-              height={height}
-              rowCount={conf.librarySize}
-              rowHeight={70}
-              rowRenderer={rowRenderer.bind(this)}
-            />
-          )}
-        </AutoSizer>
-      </div>
+      <Consumer>
+        {({ isFiltered, getBookById, getLibrarySize }) => {
+          const rowRenderer = ({ key, index, style }) => {
+            const book = getBookById(index)
+            return book && <div key={key} style={style}><Book style={style} book={book} /></div>
+          }
+          return (
+            <div className='catalog'>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <List
+                    width={width}
+                    height={height}
+                    rowCount={getLibrarySize()}
+                    rowHeight={config.rowHeight}
+                    rowRenderer={rowRenderer.bind(this)}
+                  />
+                )}
+              </AutoSizer>
+            </div>
+          )
+        }}
+      </Consumer>
+
     )
   }
 }

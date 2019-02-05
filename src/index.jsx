@@ -1,15 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import Header from './Header'
-import Catalog from './Catalog'
-import { initializeLibrary } from './library'
-
-const Library = () => (
-  <Fragment>
-    <Header />
-    <Catalog />
-  </Fragment>
-)
+import Library from './Library'
+import { initializeLibrary } from './libraryLoader'
 
 initializeLibrary()
+
 ReactDOM.render(<Library />, document.getElementById('root'))
