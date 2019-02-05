@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import Search from '../Search'
 import { worker, isLibraryLoaded } from '../library'
 import './styles.scss'
@@ -29,4 +29,4 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+export default Header

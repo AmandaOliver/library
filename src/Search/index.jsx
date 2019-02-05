@@ -5,45 +5,45 @@ import './styles.scss'
 
 class Search extends PureComponent {
     state = {
-        selectedOption: undefined,
-        selectedOptionEnum: undefined
+      selectedOption: undefined,
+      selectedOptionEnum: undefined
     }
     handleChange = (selected) => {
-        this.setState({ ...this.state, selectedOption: selected.value })
-        console.log(`Option selected:`, selected)
+      this.setState({ ...this.state, selectedOption: selected.value })
+      console.log(`Option selected:`, selected)
     }
     handleChangeEnum = (selected) => {
-        this.setState({ ...this.state, selectedOptionEnum: selected })
-        console.log(`Option selected enum:`, selected)
+      this.setState({ ...this.state, selectedOptionEnum: selected })
+      console.log(`Option selected enum:`, selected)
     }
     getValueList = string => {
-        return conf.propertyEnumMap[string]
+      return conf.propertyEnumMap[string]
     }
     render() {
-        const { selectedOption } = this.state
-        const propertyIsEnum = () => {
-            return selectedOption === conf.bookProperties[1] || selectedOption === conf.bookProperties[4]
-        }
-        const transformForOptions = array => {
-            return array.map((p, i) => ({ label: p, value: p }))
-        }
-        return (
-            <Fragment>
-                <Select className="basic-single dropdown"
-                    classNamePrefix="select"
-                    onChange={this.handleChange}
-                    defaultValue={conf.bookProperties[0]}
-                    options={transformForOptions(conf.bookProperties)}/>
+      const { selectedOption } = this.state
+      const propertyIsEnum = () => {
+        return selectedOption === conf.bookProperties[1] || selectedOption === conf.bookProperties[4]
+      }
+      const transformForOptions = array => {
+        return array.map((p, i) => ({ label: p, value: p }))
+      }
+      return (
+        <Fragment>
+          <Select className="basic-single dropdown"
+            classNamePrefix="select"
+            onChange={this.handleChange}
+            defaultValue={conf.bookProperties[0]}
+            options={transformForOptions(conf.bookProperties)}/>
 
-                {propertyIsEnum() &&
+          {propertyIsEnum() &&
                     <Select className="basic-single dropdown"
-                        classNamePrefix="select"
-                        onChange={this.handleChangeEnum}
-                        options={transformForOptions(conf[this.getValueList(selectedOption)])} />
-                }
+                      classNamePrefix="select"
+                      onChange={this.handleChangeEnum}
+                      options={transformForOptions(conf[this.getValueList(selectedOption)])} />
+          }
 
-            </Fragment>
-        )
+        </Fragment>
+      )
 
 
     }

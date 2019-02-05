@@ -1,6 +1,5 @@
 .header {
     margin: 0 0 20px 0;
-    animation: pop-in .8s ;
     background-color: #3fbfbb;
     width: 100%;
     display: inline-flex;
@@ -13,18 +12,5 @@
         font-family: "Circular-Pro-Black";
         font-size: 50px;
         color: white;
-    }
-}
-
-@keyframes pop-in {
-    0% {
-        width: 0;
-        opacity: 0;
-        transform: translateY(-4em) scale(.8)
-    }
-    100% {
-        width:100%;
-        opacity: 1;
-        transform: none;
     }
 }

@@ -10,7 +10,12 @@
     "test-coverage": "yarn test --coverage"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "semi": [1, "never"],
+      "indent": [2, 2],
+      "no-restricted-globals": 0
+    }
   },
   "browserslist": [
     ">0.2%",

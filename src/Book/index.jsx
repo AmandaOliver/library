@@ -39,4 +39,4 @@ const Book = ({ book }) => {
   )
 }
 
-export default Book;
+export default Book
