@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import Book from '../Book'
 import { isLibraryInitialized, worker, getBookById } from '../library'
 import conf from '../configuration'
+import { List, AutoSizer } from 'react-virtualized';
 
 import './styles.scss'
 
@@ -9,20 +10,9 @@ class Catalog extends PureComponent {
     constructor() {
         super()
         this.state = {
+            bookIds: new Array(conf.librarySize).fill(),
+            isLoading: true,
             indexInit: 0,
-            bookIds: [],
-            isLoading: true
-        }
-
-        window.onscroll = () => {
-            const { scrollTop, offsetHeight } = document.documentElement
-            const isEndOfVisibleArea = window.innerHeight + scrollTop === offsetHeight
-            // Assumption: lirary is always multiple of 10
-            const lastBookIsLoaded = this.state.bookIds[conf.librarySize-1]
-            console.log(lastBookIsLoaded)
-            if (isEndOfVisibleArea && !lastBookIsLoaded) {
-                this.getMoreBooks()
-            }
         }
         this.bindedInitializeComponent = this.initializeComponent.bind(this)
         // listen to the web worker to check when to render the first elements
@@ -30,9 +20,10 @@ class Catalog extends PureComponent {
     }
 
     initializeComponent(event) {
-        const needsToLoadInitialBooks = this.state.isLoading === true && isLibraryInitialized()
-        const unsubscribeFromWorker = () => worker.removeEventListener('message', this.bindedInitializeComponent)
-        const setIsLoadingFalse = () => this.setState({ ...this.state, isLoading: false })
+        const needsToLoadInitialBooks = isLibraryInitialized()
+        const unsubscribeFromWorker = () =>
+            worker.removeEventListener('message', this.bindedInitializeComponent)
+        const setIsLoadingFalse = () => this.setState({ isLoading: false })
 
         console.info('Can I render something?: ', needsToLoadInitialBooks )
         if (needsToLoadInitialBooks) {
@@ -48,23 +39,34 @@ class Catalog extends PureComponent {
         console.info(`Adding Ids from ${indexInit} to ${indexEnd -1}`)
         this.setState({
             bookIds: [
-                // THIS NEEDS IMPROVEMENT: we are rendering all books from 0 to the current
-                // position in the scroll, when we scroll towards the end of the list it will
-                // have to render all the books at the same time
                 ...bookIds,
-                ...new Array(conf.booksPerPage).fill().map((_, i) => i+indexInit)
+                ...new Array(conf.booksPerPage).fill().map((_, i) => getBookById(i+indexInit))
             ],
             indexInit: indexEnd,
         })
     }
     render() {
-        const bookComponents = this.state.bookIds.map(bookId => {
-            return <Book key={bookId} book={getBookById(bookId)} />
-        })
+
+        const rowRenderer = ({ key, index, style }) => {
+            const bookData = getBookById(index)
+            return bookData ?
+                <div key={key} style={style}><Book key={key} book={bookData} /></div> :
+                <div key={key} style={style}>Loading...</div>
+        }
         return (
-            <div className="catalog">
-                {bookComponents}
-            </div>
+            <div className='catalog'>
+            <AutoSizer>
+                {({ height, width }) => (
+                    <List
+                    width={width}
+                    height={height}
+                    rowCount={conf.librarySize}
+                    rowHeight={70}
+                    rowRenderer={rowRenderer.bind(this)}
+                    />
+                )}
+                </AutoSizer>
+                </div>
         )
     }
 }

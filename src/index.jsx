@@ -9,6 +9,8 @@ export const App = () => (
         <Catalog />
     </Fragment>
 
+
+
 )
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -22,11 +22,9 @@ class Search extends PureComponent {
     render() {
         const { selectedOption } = this.state
         const propertyIsEnum = () => {
-            console.log(selectedOption, conf.bookProperties[1], conf.bookProperties[4] )
             return selectedOption === conf.bookProperties[1] || selectedOption === conf.bookProperties[4]
         }
         const transformForOptions = array => {
-            console.log(array)
             return array.map((p, i) => ({ label: p, value: p }))
         }
         return (

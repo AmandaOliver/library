@@ -1,13 +1,13 @@
 import faker from 'faker'
-// eslint-disable-next-line
-self.addEventListener("message", ({ data }) => generateBooksMap(data));
 
+// eslint-disable-next-line no-restricted-globals
+self.addEventListener("message", ({ data }) => generateBooksArray(data));
 
-const generateBooksMap = ({ librarySize, bookGenres, oldestBookAge, personGenders }) =>
+const generateBooksArray = ({ librarySize, bookGenres, oldestBookAge, personGenders }) =>
     new Array(librarySize).fill().map((_, index) => {
         const bookEntry =
             {
-                id: index,
+                id: index+1,
                 name: faker.random.words(),
                 genre: faker.helpers.randomize(bookGenres),
                 publishDate: faker.date.past(oldestBookAge),

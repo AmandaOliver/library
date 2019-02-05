@@ -1,31 +1,38 @@
 .book {
     border-radius: 5px;
     box-shadow: 5px 5px 5px #e4e4e4a8;
-    padding: 10px;
     background-color: #e6e6e6;
     margin: 5px 10px;
     font-family: Georgia, 'Times New Roman', Times, serif;
     display: flex;
     flex-flow: wrap row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    padding-left:10px;
+    height:60px;
     &__property {
         display: flex;
+        flex-flow: wrap row;
+        justify-content: flex-start;
         align-items: center;
         &--id {
-            margin-right: 6px;
+            margin-right: 10px;
             font-weight: bolder;
         }
         &__name {
             color: #3fbfbb;
             font-size: 16px;
-            margin: 5px;
-            width: 120px;
+            width: 100px;
         }
         &__value {
-            width: 120px;
+            width: 100px;
             margin: 5px;
+            &--long{
+                width:200px;
+            }
         }
+
+
     }
 
 }

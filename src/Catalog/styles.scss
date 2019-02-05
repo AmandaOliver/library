@@ -1,5 +1,8 @@
+body{
+    position: fixed;
+    // overflow-y: scroll;
+}
 .catalog {
-    display: flex;
-    flex-flow: wrap row;
-    justify-content: space-around;
+    height: calc(100vh - 90px);
+    width: 100vw;
 }

@@ -2,15 +2,22 @@ import conf from './configuration'
 import myWorker from './libraryGenerator.worker';
 
 export const worker = new myWorker();
-const booksArray = []
+export const booksArray = []
 worker.postMessage(conf);
 worker.addEventListener('message', event => {
     booksArray.push(event.data)
 });
 
+
 export const isLibraryLoaded = () => booksArray.length === conf.librarySize
-export const isLibraryInitialized = () => booksArray.length > 10
-export const getBookById = id => booksArray[id]
+export const isLibraryInitialized = () => booksArray.length > conf.booksPerPage
+export const getBookById = id => {
+    let book = undefined
+    if (booksArray.length > id -1) {
+         book = booksArray[id]
+    }
+    return book
+}
 export const getBookProperties = () => Object.keys(booksArray[0])
 window.sortByProperty = property =>
     booksArray.sort((a,b) => {
