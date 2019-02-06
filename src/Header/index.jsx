@@ -24,7 +24,8 @@ class Header extends PureComponent {
     return (
       <header className="header">
         <span className="header__title">THE LIBRARY</span>
-        {!this.state.loaded ? 'loading...' :
+        {!this.state.loaded ?
+          <div className="header__loading">Loading</div>:
           <div className="header__options">
             <Sort />
             <Search />

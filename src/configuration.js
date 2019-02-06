@@ -23,8 +23,9 @@ export default {
       ]
     }
   },
+  dateFormat: { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' },
   oldestBookPublishDate: new Date("1990-01-01"),
   rowHeight: 70,
-  booksPerPage: 30,
+  booksPerPage: 10,
   librarySize: 1000,
 }

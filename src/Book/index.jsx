@@ -1,14 +1,13 @@
 import React from 'react'
-import moment from 'moment'
-import conf from '../configuration'
+import config from '../configuration'
 
 import './styles.scss'
 
 
 const Book = ({ book }) => {
-  const { bookProperties } = conf
+  const { bookProperties } = config
   const { genre, name, publishDate, authorName, authorGender } = book.bookData
-  const publishDateFormatted = moment(publishDate).format('DD/MM/YYYY')
+  const publishDateFormatted = publishDate.toLocaleDateString('en-gb', config.dateFormat)
 
   return (
     <div className="book">

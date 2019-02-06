@@ -2,7 +2,7 @@
 self.addEventListener("message", ({ data }) => generateBooksArray(data))
 
 const getRandomValue = (array) => array[Math.floor((Math.random() * array.length))]
-const getRandomDate = (startDate) => new Date(+startDate + Math.random() * (Date.now() - startDate))
+const getRandomDate = (startDate) => new Date(+startDate + Math.random() * (new Date() - startDate))
 
 const generateBooksArray = ({bookProperties, librarySize, oldestBookPublishDate }) =>
   new Array(librarySize).fill().forEach((_, index) => {

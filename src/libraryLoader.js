@@ -10,12 +10,20 @@ const isLibraryLoaded = () => booksArray.length === config.librarySize
 const getBookById = id => booksArray[id]
 
 const sortByProperty = property => sortBooks(property, booksArray)
-
+const compareDates = (bookPublishDate, publishDate) => {
+  const { publishDay, publishMonth, publishYear, publishWeekDay } = publishDate
+  const dayComparison =  (!publishDay || publishDay === bookPublishDate.getDate().toString())
+  const monthComparison = (!publishMonth || publishMonth === bookPublishDate.getMonth().toString())
+  const yearComparison = (!publishYear || publishYear === bookPublishDate.getFullYear().toString())
+  const weekDayComparison = (!publishWeekDay || publishWeekDay === bookPublishDate.getDay().toString())
+  
+  return dayComparison && monthComparison && yearComparison && weekDayComparison
+}
 const filterByProperties = paramsArray =>
   booksArray.filter(({ bookData }) =>
-    paramsArray.every(({ property, value, exact }) => {
+    paramsArray.every(({ property, value, exact, publishDate }) => {
       if (property === 'publishDate') {
-        return bookData[property].getTime() === value.getTime()
+        return compareDates(bookData[property], publishDate)
       }
       if (exact) {
         return bookData[property].toLowerCase() === value.toLowerCase()

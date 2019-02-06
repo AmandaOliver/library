@@ -10,3 +10,7 @@ export const sortBooks = (property, books) => {
 
 export const bookPropertiesDropDown = Object.keys(config.bookProperties).map(property =>
   <option key={property} value={property} label={config.bookProperties[property].label} />)
+
+
+export const getPropertyValues = property =>
+  config.bookProperties[property].values
