@@ -1,29 +1,43 @@
 import myWorker from './libraryGenerator.worker'
 import config from './configuration'
 import { sortBooks } from './utils'
-
 const worker = new myWorker()
 
 const booksArray = []
 const isLibraryInitialized = () => booksArray.length > config.booksPerPage
 const isLibraryLoaded = () => booksArray.length === config.librarySize
 const getBookById = id => booksArray[id]
-
 const sortByProperty = property => sortBooks(property, booksArray)
+
 const compareDates = (bookPublishDate, publishDate) => {
-  const { publishDay, publishMonth, publishYear, publishWeekDay } = publishDate
-  const dayComparison =  (!publishDay || publishDay === bookPublishDate.getDate().toString())
+  const { publishDay, publishMonth, publishYear, publishWeekDay, isLast } = publishDate
+  const isLastOfTheMonth = (bookPublishDate, publishWeekDay) => {
+
+    if (bookPublishDate.getDay().toString() !== publishWeekDay) {
+      return false
+    }
+    for(let dayNumber = 0 ;dayNumber>-7;dayNumber--) {
+      const dayOfLastWeek = new Date(bookPublishDate.getFullYear(), bookPublishDate.getMonth() + 1, dayNumber)
+      if (dayOfLastWeek.getDate() === bookPublishDate.getDate()) {
+        return true
+      }
+    }
+    return false
+  }
+  const dayComparison = (!publishDay || publishDay === bookPublishDate.getDate().toString())
   const monthComparison = (!publishMonth || publishMonth === bookPublishDate.getMonth().toString())
   const yearComparison = (!publishYear || publishYear === bookPublishDate.getFullYear().toString())
   const weekDayComparison = (!publishWeekDay || publishWeekDay === bookPublishDate.getDay().toString())
-  
-  return dayComparison && monthComparison && yearComparison && weekDayComparison
+  const isLastWeekDayComparison = (!isLast || isLastOfTheMonth(bookPublishDate, publishWeekDay))
+  return dayComparison && monthComparison && yearComparison && weekDayComparison && isLastWeekDayComparison
 }
+
+
 const filterByProperties = paramsArray =>
   booksArray.filter(({ bookData }) =>
     paramsArray.every(({ property, value, exact, publishDate }) => {
       if (property === 'publishDate') {
-        return compareDates(bookData[property], publishDate)
+        return compareDates(bookData[property], publishDate, true)
       }
       if (exact) {
         return bookData[property].toLowerCase() === value.toLowerCase()

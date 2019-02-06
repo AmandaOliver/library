@@ -2,7 +2,7 @@ import React, {Fragment} from 'react'
 import { Field } from 'formik'
 import config from '../configuration'
 
-const DateForm = () => {
+const DateForm = ({number}) => {
 
   const getDayValues = () => new Array(31).fill().map((_, index) => {
     const label = index + 1
@@ -22,6 +22,7 @@ const DateForm = () => {
       return (<option key={value} value={value} label={value} />)
     })
   }
+
   const getWeekDayValues = () => {
     const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     return weekDays.map((weekDay, index) => {
@@ -31,22 +32,24 @@ const DateForm = () => {
 
   return (
     <Fragment>
-      <Field component='select' name='publishDay' >
-        <option label="Day" />
+      <Field component='select' name={`publishDay${number}`} >
+        <option label='Day' />
         {getDayValues()}
       </Field >
-      <Field component='select' name='publishMonth' >
-        <option label="Month" />
+      <Field component='select' name={`publishMonth${number}`} >
+        <option label='Month' />
         {getMonthValues()}
       </Field >
-      <Field component='select' name='publishYear' >
-        <option label="Year" />
+      <Field component='select' name={`publishYear${number}`} >
+        <option label='Year' />
         {getYearValues()}
       </Field >
-      <Field component='select' name='publishWeekDay' >
-        <option label="Week Day" />
+      <Field component='select' name={`publishWeekDay${number}`} >
+        <option label='Week Day' />
         {getWeekDayValues()}
       </Field >
+      <Field type='checkbox' id='exact' name={`isLast${number}`} />
+      <label id='exact'>Last of the month</label>
     </Fragment>
   )
 }

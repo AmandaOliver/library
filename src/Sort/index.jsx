@@ -12,10 +12,10 @@ const Sort = () =>
         render={() => (
           <Form >
             <Field component='select' name='property' >
-              <option value="id" label="Id" />
+              <option value='id' label='Id' />
               {bookPropertiesDropDown}
             </Field >
-            <button type="submit">Sort</button>
+            <button type='submit'>Sort</button>
           </Form>
         )}
       />}
