@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
-import Header from '../Header'
-import Catalog from '../Catalog'
-import { Provider } from '../context'
-import {sortArrayBooks, filterArrayBooks, getBookById} from '../libraryLoader'
-import config from '../configuration'
+import Header from './Header'
+import Catalog from './Catalog'
+import { Provider } from './context'
+import {sortArrayBooks, filterArrayBooks, getBookById} from './libraryLoader'
+import config from './configuration'
 
 class Library extends PureComponent {
   constructor() {

@@ -1,13 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Book renders 1`] = `
+exports[`Book matches snapshot 1`] = `
 <div
   className="book"
 >
   <div
-    className="book__property--id"
+    className="book__property book__property--id"
   >
-    <span>
+    <span
+      className="book__property__value"
+    >
+      0
       )
     </span>
   </div>
@@ -17,10 +20,11 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__name"
     >
-      Name: 
+      Name
+      : 
     </span>
     <span
-      className="book__property__value"
+      className="book__property__value--long"
     >
       mockName
        
@@ -32,7 +36,8 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__name"
     >
-      Genre: 
+      Genre
+      :  
     </span>
     <span
       className="book__property__value"
@@ -47,12 +52,13 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__name"
     >
-      Publish Date: 
+      Publish Date
+      : 
     </span>
     <span
       className="book__property__value"
     >
-      03/02/2019
+      Thursday, 2/7/2019
     </span>
   </div>
   <div
@@ -61,11 +67,13 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__name"
     >
-      Author Name: 
+      Author Name
+      : 
     </span>
     <span
-      className="book__property__value"
+      className="book__property__value--long"
     >
+      mockAuthorName
        
     </span>
   </div>
@@ -75,11 +83,13 @@ exports[`Book renders 1`] = `
     <span
       className="book__property__name"
     >
-      Author Gender: 
+      Author Gender
+      :  
     </span>
     <span
       className="book__property__value"
     >
+      mockAuthorGender
        
     </span>
   </div>

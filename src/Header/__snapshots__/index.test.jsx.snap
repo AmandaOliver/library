@@ -1,11 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders 1`] = `
+exports[`Header matches snapshot 1`] = `
 <header
   className="header"
 >
-  <span>
+  <span
+    className="header__title"
+  >
     THE LIBRARY
   </span>
+  <div
+    className="header__loading"
+  >
+    Loading
+  </div>
 </header>
 `;

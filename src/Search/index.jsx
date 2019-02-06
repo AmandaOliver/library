@@ -26,7 +26,7 @@ const Search = () =>
           isLast: undefined
         }
       }}
-        onSubmit={({ name, genre, authorName, authorGender, publishDate }) => {
+      onSubmit={({ name, genre, authorName, authorGender, publishDate }) => {
         filterBooks({
           name: {
             value: name.value,

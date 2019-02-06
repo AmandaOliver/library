@@ -1,8 +1,8 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import Header from '.'
+import Library from './Library'
 
-jest.mock('../libraryGenerator.worker', () =>
+jest.mock('./libraryGenerator.worker', () =>
   class Worker {
     constructor() {this.onmessage = () => {}}
     addEventListener() { return }
@@ -11,10 +11,10 @@ jest.mock('../libraryGenerator.worker', () =>
     }
   }
 )
-describe('Header', () => {
+describe('Library', () => {
   it('matches snapshot', () => {
     const component = renderer.create(
-      <Header />,
+      <Library />,
     )
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()

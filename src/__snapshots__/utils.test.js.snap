@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils: bookPropertiesDropDown returns the options of the property dropdown populated with the labels 1`] = `
+Array [
+  <option
+    label="label1"
+    value="genre"
+  />,
+]
+`;

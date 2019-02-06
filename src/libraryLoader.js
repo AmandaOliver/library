@@ -1,9 +1,9 @@
-import myWorker from './libraryGenerator.worker'
+import generationWorker from './libraryGenerator.worker'
 import config from './configuration'
 import { sortBooks } from './utils'
 
 const booksArray = []
-export const worker = new myWorker()
+export const worker = new generationWorker()
 
 export const isLibraryInitialized = () => booksArray.length > config.booksPerPage
 export const isLibraryLoaded = () => booksArray.length === config.librarySize
