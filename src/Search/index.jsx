@@ -83,8 +83,6 @@ class Search extends PureComponent {
         }
       </Consumer>
     )
-
-
   }
 }
 
