@@ -23,6 +23,7 @@ export default {
       ]
     }
   },
+  weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   dateFormat: { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' },
   oldestBookPublishDate: new Date('1990-01-01'),
   rowHeight: 70,

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import Search from '../Search'
 import Sort from '../Sort'
-import lib from '../libraryLoader'
+import {worker, isLibraryLoaded} from '../libraryLoader'
 import './styles.scss'
 
 class Header extends PureComponent {
@@ -10,10 +10,10 @@ class Header extends PureComponent {
     this.state = {
       loaded: false
     }
-    lib.worker.addEventListener('message', this.updateFlag.bind(this))
+    worker.addEventListener('message', this.updateFlag.bind(this))
   }
   updateFlag() {
-    if (lib.isLibraryLoaded()) {
+    if (isLibraryLoaded()) {
       this.setState({
         loaded: true
       })

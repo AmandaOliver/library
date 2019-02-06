@@ -1,51 +1,55 @@
 import myWorker from './libraryGenerator.worker'
 import config from './configuration'
 import { sortBooks } from './utils'
-const worker = new myWorker()
 
 const booksArray = []
-const isLibraryInitialized = () => booksArray.length > config.booksPerPage
-const isLibraryLoaded = () => booksArray.length === config.librarySize
-const getBookById = id => booksArray[id]
-const sortByProperty = property => sortBooks(property, booksArray)
+export const worker = new myWorker()
 
-const compareDates = (bookPublishDate, publishDate) => {
-  const { publishDay, publishMonth, publishYear, publishWeekDay, isLast } = publishDate
-  const isLastOfTheMonth = (bookPublishDate, publishWeekDay) => {
+export const isLibraryInitialized = () => booksArray.length > config.booksPerPage
+export const isLibraryLoaded = () => booksArray.length === config.librarySize
+export const getBookById = id => booksArray[id]
+export const sortArrayBooks = property => sortBooks(property, booksArray)
 
-    if (bookPublishDate.getDay().toString() !== publishWeekDay) {
-      return false
-    }
-    for(let dayNumber = 0 ;dayNumber>-7;dayNumber--) {
-      const dayOfLastWeek = new Date(bookPublishDate.getFullYear(), bookPublishDate.getMonth() + 1, dayNumber)
-      if (dayOfLastWeek.getDate() === bookPublishDate.getDate()) {
-        return true
-      }
-    }
+export const weekDayIsLastOfTheMonth = (date, weekDay) => {
+  if (date.getDay() !== weekDay) {
     return false
   }
-  const dayComparison = (!publishDay || publishDay === bookPublishDate.getDate().toString())
-  const monthComparison = (!publishMonth || publishMonth === bookPublishDate.getMonth().toString())
-  const yearComparison = (!publishYear || publishYear === bookPublishDate.getFullYear().toString())
-  const weekDayComparison = (!publishWeekDay || publishWeekDay === bookPublishDate.getDay().toString())
-  const isLastWeekDayComparison = (!isLast || isLastOfTheMonth(bookPublishDate, publishWeekDay))
-  return dayComparison && monthComparison && yearComparison && weekDayComparison && isLastWeekDayComparison
+  for (let dayNumber = 0; dayNumber > -config.weekDays.length; dayNumber--) {
+    const oneDayOfLastWeek = new Date(date.getFullYear(), date.getMonth() + 1, dayNumber)
+    return oneDayOfLastWeek.getDate() === date.getDate()
+  }
+  return false
 }
 
+export const compareStringProperties = (bookProperty, formProperty) => {
+  const { exact, value } = formProperty
+  if (exact) {
+    return bookProperty.toLowerCase() === value.toLowerCase()
+  }
+  return bookProperty.toLowerCase().includes(value.toLowerCase())
+}
 
-const filterByProperties = paramsArray =>
-  booksArray.filter(({ bookData }) =>
-    paramsArray.every(({ property, value, exact, publishDate }) => {
-      if (property === 'publishDate') {
-        return compareDates(bookData[property], publishDate, true)
-      }
-      if (exact) {
-        return bookData[property].toLowerCase() === value.toLowerCase()
-      }
-      return bookData[property].toLowerCase().includes(value.toLowerCase())
-    }))
+export const isPublishDateValid = (bookPublishDate, { day, month, year, weekDay, isLast }) => {
+  const dayIsValid =  !day || day === bookPublishDate.getDate()
+  const monthIsValid =  !month || month === (bookPublishDate.getMonth() + 1)
+  const yearIsValid =  !year || year === bookPublishDate.getFullYear()
+  const weekDayIsValid = (!weekDay && weekDay !==0) || weekDay === bookPublishDate.getDay()
+  const isLastWeekDayIsValid = !isLast || weekDayIsLastOfTheMonth(bookPublishDate, weekDay)
+  return dayIsValid && monthIsValid && yearIsValid && weekDayIsValid && isLastWeekDayIsValid
+}
 
-const initializeLibrary = () => {
+export const filterArrayBooks = ({ name, genre, authorName, authorGender, publishDate }) => {
+  return booksArray.filter(({ bookData }) => {
+    const nameIsValid = !name.value || compareStringProperties(bookData.name, name)
+    const genreIsValid = !genre || bookData.genre === genre
+    const authorNameIsValid = !authorName.value || compareStringProperties(bookData.authorName, authorName)
+    const authorGenderIsValid = !authorGender || bookData.authorGender === authorGender
+    const publishDateIsValid = isPublishDateValid(bookData.publishDate, publishDate)
+    return nameIsValid && genreIsValid && authorNameIsValid && authorGenderIsValid && publishDateIsValid
+  })
+}
+
+export const initializeLibrary = () => {
   // initialize worker
   worker.postMessage(config)
 
@@ -53,14 +57,4 @@ const initializeLibrary = () => {
     booksArray.push(data)
     isLibraryLoaded() && worker.terminate()
   })
-}
-
-export default {
-  worker,
-  getBookById,
-  isLibraryInitialized,
-  isLibraryLoaded,
-  sortByProperty,
-  filterByProperties,
-  initializeLibrary
 }

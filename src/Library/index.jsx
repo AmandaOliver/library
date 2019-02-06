@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react'
 import Header from '../Header'
 import Catalog from '../Catalog'
 import { Provider } from '../context'
-import lib from '../libraryLoader'
+import {sortArrayBooks, filterArrayBooks, getBookById} from '../libraryLoader'
 import config from '../configuration'
-import { sortBooks } from '../utils'
 
 class Library extends PureComponent {
   constructor() {
@@ -14,7 +13,7 @@ class Library extends PureComponent {
       getLibrarySize: this._getLibrarySize,
       getBookById: this._getBookById,
       sortByProperty: this._sortByProperty,
-      filterByProperties: this._filterByProperties,
+      filterBooks: this._filterBooks,
       resetFilter: this._resetFilter,
     }
 
@@ -33,18 +32,24 @@ class Library extends PureComponent {
     })
   }
   _getLibrarySize = () => this.state.isFiltered ? this.state.filteredBooksArray.length : config.librarySize
-  _getBookById = id => this.state.isFiltered ? this.state.filteredBooksArray[id] : lib.getBookById(id)
+  _getBookById = id => this.state.isFiltered ? this.state.filteredBooksArray[id] : getBookById(id)
   _sortByProperty = property => {
+    const sortBooks = (property, books) => {
+      if (property === 'id') {
+        books.sort((bookA, bookB) => bookA.id - bookB.id)
+      }
+      books.sort((bookA, bookB) => bookA.bookData[property] < bookB.bookData[property] ? -1 : 1)
+    }
     if (this.state.isFiltered) {
       sortBooks(property, this.state.filteredBooksArray)
     }
-    lib.sortByProperty(property)
+    sortArrayBooks(property)
     this.setState({sortedBy: property})
   }
 
-  _filterByProperties = (paramsArray) => {
+  _filterBooks = (bookProperties) => {
     this.setState({
-      filteredBooksArray: lib.filterByProperties(paramsArray),
+      filteredBooksArray: filterArrayBooks(bookProperties),
       isFiltered: true
     })
   }

@@ -3,14 +3,18 @@
     background-color: #3fbfbb;
     width: 100%;
     display: inline-flex;
-    flex-flow: wrap row;
-    justify-content: space-around;
+    flex-flow: wrap column;
     box-shadow: 0 5px 5px #e4e4e4a8;
-    height: 60px;
     &__title {
         align-self: center;
         font-family: "Circular-Pro-Black";
         font-size: 50px;
         color: white;
+    }
+    &__options{
+        display: flex;
+        flex-flow: wrap row;
+        justify-content: space-around;
+        padding: 20px;
     }
 }

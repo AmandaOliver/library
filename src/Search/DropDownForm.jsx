@@ -3,10 +3,10 @@ import { Field } from 'formik'
 import { getPropertyValues } from '../utils'
 
 
-const DropDownForm = ({property}) => {
+const DropDownForm = ({ property }) => {
   return (
-    <Field component='select' name='value' >
-      <option value='' label='Select an Option' />
+    <Field component='select' name={property} >
+      <option value='' label={`${property}`} />
       {getPropertyValues(property).map(value => <option key={value} value={value} label={value} />)}
     </Field >
   )
