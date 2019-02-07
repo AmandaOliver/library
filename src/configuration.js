@@ -28,5 +28,5 @@ export default {
   oldestBookPublishDate: new Date('1990-01-01'),
   rowHeight: 70,
   booksPerPage: 10,
-  librarySize: 1000000,
+  librarySize: 1000,
 }

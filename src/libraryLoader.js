@@ -14,9 +14,14 @@ export const weekDayIsLastOfTheMonth = (date, weekDay) => {
   if (date.getDay() !== weekDay) {
     return false
   }
+  const lastWeek = []
   for (let dayNumber = 0; dayNumber > -config.weekDays.length; dayNumber--) {
-    const oneDayOfLastWeek = new Date(date.getFullYear(), date.getMonth() + 1, dayNumber)
-    return oneDayOfLastWeek.getDate() === date.getDate()
+    lastWeek.push(new Date(date.getFullYear(), date.getMonth() + 1, dayNumber))
+  }
+  for (let dayNumber = 0; dayNumber < config.weekDays.length; dayNumber++){
+    if (lastWeek[dayNumber].getDate() === date.getDate()) {
+      return true
+    }
   }
   return false
 }
